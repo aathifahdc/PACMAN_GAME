@@ -1,0 +1,59 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class App {
+    public static void main(String[] args) {
+        int rowCount = 21;
+        int columnCount = 19;
+        int tileSize = 32;
+        int boardWidth = columnCount * tileSize;
+        int boardHeight = rowCount * tileSize;
+
+        JFrame frame = new JFrame("Pac Man");
+        frame.setSize(boardWidth, boardHeight);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Panel Menu Awal
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new BorderLayout());
+        menuPanel.setBackground(Color.BLACK);
+
+        JLabel titleLabel = new JLabel("PAC MAN");
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setForeground(Color.YELLOW);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
+
+        JButton startButton = new JButton("Start Game");
+        startButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        startButton.setFocusPainted(false);
+        startButton.setBackground(Color.YELLOW);
+        startButton.setForeground(Color.BLACK);
+
+        menuPanel.add(titleLabel, BorderLayout.CENTER);
+        menuPanel.add(startButton, BorderLayout.SOUTH);
+
+        // Tambahkan menu panel ke frame
+        frame.add(menuPanel);
+        frame.setVisible(true);
+
+        // Panel Game (PacMan)
+        PacMan pacmanGame = new PacMan();
+
+        // Tombol start menghapus menu dan memulai game
+        startButton.addActionListener(e -> {
+            frame.remove(menuPanel); // Hapus menu panel
+            frame.add(pacmanGame); // Tambahkan panel game
+            frame.revalidate();
+            frame.repaint();
+            pacmanGame.startGame(); // Mulai game
+            pacmanGame.requestFocusInWindow(); // Fokus ke panel PacMan
+        });
+        startButton.addActionListener(e -> {
+            pacmanGame.startGame();
+            startButton.setVisible(false);
+            pacmanGame.requestFocusInWindow(); // Fokus kembali ke JPanel PacMan
+        });        
+    }
+}
